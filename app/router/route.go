@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/rs/cors"
-	"github.com/suryab-21/sigmatech-test/app/middleware"
+	"github.com/suryab-21/sigmatech-test/app/controllers/myclient"
 )
 
 func InitRoutes() http.Handler {
@@ -16,17 +16,11 @@ func InitRoutes() http.Handler {
 		AllowedHeaders: []string{"Content-Type", "Authorization"},
 	})
 
-	authorizedMiddleware := middleware.MiddlewareStack(
-		middleware.UserIdentify,
-	)
-
-	router.Handle("/", authorizedMiddleware(authorizedRoute()))
+	router.HandleFunc("GET /client", myclient.GetMyClient)
+	router.HandleFunc("POST /client", myclient.PostMyClient)
+	router.HandleFunc("GET /client/{id}", myclient.GetByIdMyClient)
+	router.HandleFunc("PUT /client/{id}", myclient.PutMyClient)
+	router.HandleFunc("DELETE /client/{id}", myclient.DeleteMyClient)
 
 	return cors.Handler(router)
-}
-
-func authorizedRoute() *http.ServeMux {
-	authorizedRoute := http.NewServeMux()
-
-	return authorizedRoute
 }

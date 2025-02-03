@@ -12,9 +12,10 @@ import (
 
 func main() {
 	service.InitDB()
+	service.InitCache()
 
 	fmt.Println("Server listening on port :" + os.Getenv("PORT"))
-	if err := http.ListenAndServe(os.Getenv("PORT"), router.InitRoutes()); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf(`:%s`, os.Getenv("PORT")), router.InitRoutes()); err != nil {
 		log.Fatal(err)
 	}
 }
