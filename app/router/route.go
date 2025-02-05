@@ -4,7 +4,9 @@ import (
 	"net/http"
 
 	"github.com/rs/cors"
-	"github.com/suryab-21/sigmatech-test/app/controllers/myclient"
+	"github.com/suryab-21/golang-template/app/controllers/auth"
+	"github.com/suryab-21/golang-template/app/controllers/user"
+	"github.com/suryab-21/golang-template/app/middleware"
 )
 
 func InitRoutes() http.Handler {
@@ -16,11 +18,21 @@ func InitRoutes() http.Handler {
 		AllowedHeaders: []string{"Content-Type", "Authorization"},
 	})
 
-	router.HandleFunc("GET /client", myclient.GetMyClient)
-	router.HandleFunc("POST /client", myclient.PostMyClient)
-	router.HandleFunc("GET /client/{id}", myclient.GetByIdMyClient)
-	router.HandleFunc("PUT /client/{id}", myclient.PutMyClient)
-	router.HandleFunc("DELETE /client/{id}", myclient.DeleteMyClient)
+	authorizedMiddleware := middleware.MiddlewareStack(
+		middleware.ClaimToken,
+	)
+
+	router.Handle("/api/", http.StripPrefix("/api", authorizedMiddleware(authorizedRoute())))
+	router.HandleFunc("POST /api/sign-up", auth.SignUp)
+	router.HandleFunc("POST /api/sign-in", auth.SignIn)
 
 	return cors.Handler(router)
+}
+
+func authorizedRoute() *http.ServeMux {
+	authorizedRoute := http.NewServeMux()
+
+	authorizedRoute.HandleFunc("GET /users/me", user.GetUserInfo)
+
+	return authorizedRoute
 }

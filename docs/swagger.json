@@ -1,0 +1,123 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "For test purpose",
+        "title": "Golang Template",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/api/sign-in": {
+            "post": {
+                "description": "Sign in to get bearer token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User Authentication \u0026 Role Management"
+                ],
+                "summary": "Sign In",
+                "parameters": [
+                    {
+                        "description": "Sign In Payload",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/auth.SignInBody"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/sign-up": {
+            "post": {
+                "description": "Sign up new account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User Authentication \u0026 Role Management"
+                ],
+                "summary": "Sign Up",
+                "parameters": [
+                    {
+                        "description": "Sign Up Payload",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/auth.SignUpBody"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/users/me": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get user info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User Authentication \u0026 Role Management"
+                ],
+                "summary": "Users Info",
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "auth.SignInBody": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "auth.SignUpBody": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Bearer token",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

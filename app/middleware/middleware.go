@@ -3,10 +3,11 @@ package middleware
 import (
 	"errors"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/suryab-21/sigmatech-test/app/helper"
+	"github.com/suryab-21/golang-template/app/helper"
 )
 
 type Middleware func(http.Handler) http.Handler
@@ -23,7 +24,7 @@ func MiddlewareStack(ms ...Middleware) Middleware {
 }
 
 // UserIdentify to identify user token
-func UserIdentify(next http.Handler) http.Handler {
+func ClaimToken(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		header := r.Header.Get("Authorization")
 		if header == "" {
@@ -42,7 +43,7 @@ func UserIdentify(next http.Handler) http.Handler {
 				return nil, errors.New("unexpected signing method")
 			}
 
-			return []byte(helper.SigningKey), nil
+			return []byte(os.Getenv("KEY")), nil
 		})
 		if err != nil {
 			helper.NewErrorResponse(w, http.StatusBadRequest, err.Error())

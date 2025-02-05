@@ -1,0 +1,81 @@
+basePath: /
+definitions:
+  auth.SignInBody:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  auth.SignUpBody:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: For test purpose
+  title: Golang Template
+  version: "1.0"
+paths:
+  /api/sign-in:
+    post:
+      consumes:
+      - application/json
+      description: Sign in to get bearer token
+      parameters:
+      - description: Sign In Payload
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SignInBody'
+      produces:
+      - application/json
+      responses: {}
+      summary: Sign In
+      tags:
+      - User Authentication & Role Management
+  /api/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: Sign up new account
+      parameters:
+      - description: Sign Up Payload
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SignUpBody'
+      produces:
+      - application/json
+      responses: {}
+      summary: Sign Up
+      tags:
+      - User Authentication & Role Management
+  /api/users/me:
+    get:
+      consumes:
+      - application/json
+      description: Get user info
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Users Info
+      tags:
+      - User Authentication & Role Management
+securityDefinitions:
+  BearerAuth:
+    description: Bearer token
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

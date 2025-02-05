@@ -6,10 +6,19 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/suryab-21/sigmatech-test/app/router"
-	"github.com/suryab-21/sigmatech-test/app/service"
+	"github.com/suryab-21/golang-template/app/router"
+	"github.com/suryab-21/golang-template/app/service"
 )
 
+// @title Golang Template
+// @version 1.0
+// @description For test purpose
+// @host localhost:8080
+// @BasePath /
+// @securitydefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Bearer token
 func main() {
 	service.InitDB()
 	service.InitCache()

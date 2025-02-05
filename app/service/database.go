@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/suryab-21/sigmatech-test/app/model"
+	"github.com/suryab-21/golang-template/app/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -47,5 +47,5 @@ func AutoMigrate(db *gorm.DB) error {
 
 // ModelList list of model
 var ModelList []interface{} = []interface{}{
-	&model.MyClient{},
+	&model.User{},
 }
